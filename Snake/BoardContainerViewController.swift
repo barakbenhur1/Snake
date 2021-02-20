@@ -161,9 +161,19 @@ class Board  {
     private var foodSpownTimer: Timer?
     private var gameTimeTimer: Timer?
     
-    private var spowndFoodDictinary = [String : (image: UIImageView, type: FoodType)]()
+    private var spowndFoodDictinary = [String : (assets: (egg: UIImageView?, food: UIImageView), type: FoodType)]()
     
     private lazy var tap = UITapGestureRecognizer(target: self, action: #selector(changeDirctionByTap(tapGestureRecognizer:)))
+    
+    private lazy var tapFire = UITapGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    
+    private lazy var swipFireDown = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    
+    private lazy var swipFireUp = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    
+    private lazy var swipFireLeft = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    
+    private lazy var swipFireRight = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
     
     private lazy var swipDown = UISwipeGestureRecognizer(target: self, action: #selector(changeDirctionBySwip(swipGestureRecognizer:)))
     
@@ -214,6 +224,11 @@ class Board  {
         board.swipLeft.direction = .left
         board.swipRight.direction = .right
         
+        board.swipFireUp.direction = .up
+        board.swipFireDown.direction = .down
+        board.swipFireLeft.direction = .left
+        board.swipFireRight.direction = .right
+        
         // add boardView to viewController
         board.superView.addSubview(board.boardView)
         
@@ -229,15 +244,25 @@ class Board  {
         boardView.removeGestureRecognizer(swipDown)
         boardView.removeGestureRecognizer(swipLeft)
         boardView.removeGestureRecognizer(swipRight)
+        boardView.removeGestureRecognizer(swipFireUp)
+        boardView.removeGestureRecognizer(swipFireDown)
+        boardView.removeGestureRecognizer(swipFireLeft)
+        boardView.removeGestureRecognizer(swipFireRight)
+        boardView.removeGestureRecognizer(tapFire)
         
         switch mothod {
         case .tap:
             boardView.addGestureRecognizer(tap)
+            boardView.addGestureRecognizer(swipFireUp)
+            boardView.addGestureRecognizer(swipFireDown)
+            boardView.addGestureRecognizer(swipFireLeft)
+            boardView.addGestureRecognizer(swipFireRight)
         case .swip:
             boardView.addGestureRecognizer(swipUp)
             boardView.addGestureRecognizer(swipDown)
             boardView.addGestureRecognizer(swipLeft)
             boardView.addGestureRecognizer(swipRight)
+            boardView.addGestureRecognizer(tapFire)
         //        default:
         //            boardView.addGestureRecognizer(tap)
         }
@@ -254,7 +279,7 @@ class Board  {
         
         spownTime = 1.6
         
-        spowndFoodDictinary = [String : (image: UIImageView, type: FoodType)]()
+        spowndFoodDictinary = [String : (assets: (egg: UIImageView, food: UIImageView), type: FoodType)]()
         
         startOverInformer?()
         
@@ -270,6 +295,37 @@ class Board  {
         gameTimeTimer = timer
         
         RunLoop.current.add(timer, forMode: .common)
+    }
+    
+    @objc func fire(gestureRecognizer: UITapGestureRecognizer) {
+        snake.fire { [self] (bullet) in
+            boardView.addSubview(bullet)
+        } borderHendaler: { [self] (bullet, timer) -> (Bool) in
+            if bullet.frame.origin.x <= superView.frame.origin.x - 20 || bullet.frame.origin.x >=  superView.frame.origin.x + superView.frame.width - 40 || bullet.frame.origin.y <= superView.frame.origin.y - 30 || bullet.frame.origin.y >= superView.frame.origin.y + superView.frame.height - 190 {
+                timer.invalidate()
+                bullet.removeFromSuperview()
+                return true
+            }
+            
+            for keyValue in spowndFoodDictinary {
+                if keyValue.value.assets.food.frame.contains(bullet.center) {
+                    guard let egg = keyValue.value.assets.egg else {
+                        keyValue.value.assets.food.removeFromSuperview()
+                        spowndFoodDictinary[keyValue.key] = nil
+                        timer.invalidate()
+                        bullet.removeFromSuperview()
+                        return true
+                    }
+                    
+                    egg.removeFromSuperview()
+                    spowndFoodDictinary[keyValue.key]?.assets.egg = nil
+                    timer.invalidate()
+                    bullet.removeFromSuperview()
+                    return true
+                }
+            }
+            return false
+        }
     }
     
     // MARK: Change Direction Methods - Tap / Swip
@@ -478,7 +534,7 @@ class Board  {
         
         snake.didEatFood = { [self] mul, key in
             self.foodSpownTimer?.invalidate()
-            self.spowndFoodDictinary[key]?.image.removeFromSuperview()
+            self.spowndFoodDictinary[key]?.assets.food.removeFromSuperview()
             self.spowndFoodDictinary[key] = nil
             self.spownTime *= mul
             
@@ -578,7 +634,15 @@ class Board  {
             
             boardView.addSubview(food)
             
-            spowndFoodDictinary[key] = (food, FoodType(rawValue: foodTypeString)!)
+            var egg: UIImageView? = nil
+            
+            if spownTime / Double(Int.random(in: 1...6)) <= 0.32 {
+                egg = PointOnBoard.create(loc: food.frame.origin, size: food.frame.size.width, image: UIImage(named: "egg")!)
+                
+                boardView.addSubview(egg!)
+            }
+            
+            spowndFoodDictinary[key] = (assets: (egg: egg, food: food), FoodType(rawValue: foodTypeString)!)
         }
         
         timerHandler(timer)
@@ -624,8 +688,8 @@ class Snake {
     var direction: Dirction = .left
     
     var snakeHead: UIImageView!
-    
-    var isFoodThere: ((String) -> (image: UIImageView, type: FoodType)?)?
+
+    var isFoodThere: ((String) -> (assets: (egg: UIImageView?, food: UIImageView), type: FoodType)?)?
     var didEatFood: ((Double, String) -> ())!
     var didLose: (() -> ())!
     var addTail: ((UIImageView) -> ())!
@@ -786,10 +850,58 @@ class Snake {
             
             let key = PointOnBoard.generateKeyPoint(origin: point)
             
-            if let food = isFoodThere!(key) {
-                eatFood(key: key ,food: food.image, type: food.type)
+            if let asstet = isFoodThere!(key) {
+                guard asstet.assets.egg == nil else {
+                    movementTimer?.invalidate()
+                    didLose()
+                    return
+                }
+                eatFood(key: key ,food: asstet.assets.food, type: asstet.type)
             }
         }
+    }
+    
+    private var allow = true
+    
+    func fire(bulletHandler: @escaping (UIImageView) -> (), borderHendaler:  @escaping (UIImageView, Timer) -> (Bool)) {
+        let bullet = PointOnBoard.create(loc: snakeHead.frame.origin, size: bodySize, image: UIImage(named: "fireBall")!)
+        
+        guard allow else { return }
+        
+        allow = false
+        
+        bullet.alpha = 0
+        
+        bulletHandler(bullet)
+        
+        let fireDirection = direction
+        
+        let timer = Timer(timeInterval: moveSpeed / 10, repeats: true) { [self] (timer) in
+            switch fireDirection {
+            case .right:
+                bullet.frame.origin.x += bodySize
+            case .left:
+                bullet.frame.origin.x -= bodySize
+            case .down:
+                bullet.frame.origin.y += bodySize
+            case .up:
+                bullet.frame.origin.y -= bodySize
+            }
+            
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.05) {
+                bullet.alpha = 1
+            }
+            
+            let finish = borderHendaler(bullet, timer)
+            
+            if finish {
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.1) {
+                    allow = true
+                }
+            }
+        }
+        
+        RunLoop.current.add(timer, forMode: .common)
     }
     
     func eatFood(key: String, food: UIImageView, type: FoodType) {
@@ -862,7 +974,7 @@ class Snake {
         return false
     }
     
-    func isInfront(frame: CGRect) -> Bool {
+    private func isInfront(frame: CGRect) -> Bool {
         
         let size = (bodySize + 10)
         
