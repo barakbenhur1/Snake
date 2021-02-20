@@ -300,7 +300,7 @@ class Board  {
     @objc func fire(gestureRecognizer: UITapGestureRecognizer) {
         snake.fire { [self] (bullet) in
             boardView.addSubview(bullet)
-        } borderHendaler: { [self] (bullet, timer) -> (Bool) in
+        } chcekForLoseHendaler: { [self] (bullet, timer) -> (Bool) in
             if bullet.frame.origin.x <= superView.frame.origin.x - 20 || bullet.frame.origin.x >=  superView.frame.origin.x + superView.frame.width - 40 || bullet.frame.origin.y <= superView.frame.origin.y - 30 || bullet.frame.origin.y >= superView.frame.origin.y + superView.frame.height - 190 {
                 timer.invalidate()
                 bullet.removeFromSuperview()
@@ -865,7 +865,7 @@ class Snake {
     
     private var allow = true
     
-    func fire(bulletHandler: @escaping (UIImageView) -> (), borderHendaler:  @escaping (UIImageView, Timer) -> (Bool), fireBlocked: @escaping (UIImageView) -> ()) {
+    func fire(bulletHandler: @escaping (UIImageView) -> (), chcekForLoseHendaler:  @escaping (UIImageView, Timer) -> (Bool), fireBlocked: @escaping (UIImageView) -> ()) {
         let bullet = PointOnBoard.create(loc: snakeHead.frame.origin, size: bodySize, image: UIImage(named: "fireBall")!)
         
         guard allow else { return }
@@ -890,7 +890,7 @@ class Snake {
                 bullet.frame.origin.y -= bodySize
             }
             
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.05) {
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.03) {
                 bullet.alpha = 1
             }
             
@@ -904,7 +904,7 @@ class Snake {
                 }
             }
             
-            let finish = borderHendaler(bullet, timer)
+            let finish = chcekForLoseHendaler(bullet, timer)
             
             if finish {
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.1) {

@@ -51,10 +51,10 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="luanchBackground.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ZDW-GR-sgt">
-                                <rect key="frame" x="-112.5" y="380" width="639" height="543"/>
+                                <rect key="frame" x="-53" y="392" width="520" height="540"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="543" id="2OA-41-4hc"/>
-                                    <constraint firstAttribute="width" constant="639" id="e3H-j6-357"/>
+                                    <constraint firstAttribute="height" constant="540" id="2OA-41-4hc"/>
+                                    <constraint firstAttribute="width" constant="520" id="e3H-j6-357"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -62,7 +62,7 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="GcS-gU-g3y" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="150" id="lFP-e3-kZG"/>
-                            <constraint firstItem="ZDW-GR-sgt" firstAttribute="top" secondItem="GcS-gU-g3y" secondAttribute="bottom" constant="126" id="p2R-tW-eKG"/>
+                            <constraint firstItem="ZDW-GR-sgt" firstAttribute="top" secondItem="GcS-gU-g3y" secondAttribute="bottom" constant="138" id="p2R-tW-eKG"/>
                             <constraint firstItem="GcS-gU-g3y" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="qqM-2s-q7x"/>
                             <constraint firstItem="ZDW-GR-sgt" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="xff-5n-4z4"/>
                         </constraints>
