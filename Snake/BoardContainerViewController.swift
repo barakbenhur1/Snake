@@ -325,6 +325,8 @@ class Board  {
                 }
             }
             return false
+        } fireBlocked: { (bullet) in
+            bullet.removeFromSuperview()
         }
     }
     
@@ -522,7 +524,7 @@ class Board  {
     private func addSnakeToBoard() {
         let startLocation = CGPoint(x: (CGFloat(rowIndex) * squreSize) + 5, y: (CGFloat(colIndex) * squreSize) + 5)
         let size = squreSize - 10
-        let speed = 0.82
+        let speed = 0.78
         
         snake = Snake(startLocation: startLocation, size: size, speed:  speed)
         
@@ -863,7 +865,7 @@ class Snake {
     
     private var allow = true
     
-    func fire(bulletHandler: @escaping (UIImageView) -> (), borderHendaler:  @escaping (UIImageView, Timer) -> (Bool)) {
+    func fire(bulletHandler: @escaping (UIImageView) -> (), borderHendaler:  @escaping (UIImageView, Timer) -> (Bool), fireBlocked: @escaping (UIImageView) -> ()) {
         let bullet = PointOnBoard.create(loc: snakeHead.frame.origin, size: bodySize, image: UIImage(named: "fireBall")!)
         
         guard allow else { return }
@@ -890,6 +892,16 @@ class Snake {
             
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.05) {
                 bullet.alpha = 1
+            }
+            
+            let part = SnakePart(locationFrame: bullet.frame, image: bullet)
+            
+            if tuochBody(with: part) {
+                timer.invalidate()
+                fireBlocked(bullet)
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.08) {
+                    allow = true
+                }
             }
             
             let finish = borderHendaler(bullet, timer)
