@@ -702,7 +702,7 @@ class Snake {
 
     init(startLocation: CGPoint, size: CGFloat, speed: Double) {
        
-        let head = PointOnBoard.create(loc: startLocation, size: size, image: UIImage(named: "head")!)
+        let head = PointOnBoard.create(loc: startLocation, size: size, image: UIImage(named: "snkeHead")!)
         
         bodySize = size
         
@@ -805,15 +805,19 @@ class Snake {
             
             switch direction {
             case .right:
+                snakeHead?.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
                 moveIterval = moveCalc(snakeHead!.frame.origin.x, .plus)
                 isInBoard = Int(moveIterval) < Int(snakeHead!.superview!.frame.origin.x + snakeHead!.superview!.frame.width) - Int(snakeHead!.frame.width)
             case .left:
+                snakeHead?.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
                 moveIterval = moveCalc(snakeHead!.frame.origin.x, .minus)
                 isInBoard = Int(moveIterval) > 0
             case .up:
+                snakeHead?.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
                 moveIterval = moveCalc(snakeHead!.frame.origin.y, .minus)
                 isInBoard = Int(moveIterval) > 0
             case .down:
+                snakeHead?.transform = .identity
                 moveIterval = moveCalc(snakeHead!.frame.origin.y, .plus)
                 isInBoard = Int(moveIterval) < Int(snakeHead!.superview!.frame.origin.y + snakeHead!.superview!.frame.height) - Int(3 * snakeHead!.frame.height) - Int(bodySize / 2)
             }
@@ -846,8 +850,8 @@ class Snake {
             let yFloat: CGFloat = (snakeHead!.frame.origin.y - 5) / (bodySize + 10.0)
             
             let x = xFloat.truncatingRemainder(dividingBy: 1) > 0.5 ? Int(xFloat + 1) : Int(xFloat)
-            let y = Int(yFloat)
-            
+            let y = yFloat.truncatingRemainder(dividingBy: 1) > 0.5 ? Int(yFloat + 1) : Int(yFloat)
+
             let point = CGPoint(x: x, y: y)
             
             let key = PointOnBoard.generateKeyPoint(origin: point)
@@ -890,6 +894,8 @@ class Snake {
                 bullet.frame.origin.y -= bodySize
             }
             
+            rotateView(targetView: bullet, duration: 0.15)
+            
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.03) {
                 bullet.alpha = 1
             }
@@ -914,6 +920,14 @@ class Snake {
         }
         
         RunLoop.current.add(timer, forMode: .common)
+    }
+    
+    private func rotateView(targetView: UIView, duration: Double = 1.0) {
+        UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
+            targetView.transform = targetView.transform.rotated(by: CGFloat(Double.pi))
+        }) { finished in
+            self.rotateView(targetView: targetView, duration: duration)
+        }
     }
     
     func eatFood(key: String, food: UIImageView, type: FoodType) {
