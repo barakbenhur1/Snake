@@ -7,14 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B652D8B825E05FCB0005DFD1 /* luanchBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B652D8B725E05FCB0005DFD1 /* luanchBackground.jpg */; };
 		B69C428725D71D8900FDC038 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69C428625D71D8900FDC038 /* AppDelegate.swift */; };
 		B69C428925D71D8900FDC038 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69C428825D71D8900FDC038 /* SceneDelegate.swift */; };
-		B69C428B25D71D8900FDC038 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69C428A25D71D8900FDC038 /* ViewController.swift */; };
+		B69C428B25D71D8900FDC038 /* BoardContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69C428A25D71D8900FDC038 /* BoardContainerViewController.swift */; };
 		B69C428E25D71D8900FDC038 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B69C428C25D71D8900FDC038 /* Main.storyboard */; };
 		B69C429025D71D8D00FDC038 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B69C428F25D71D8D00FDC038 /* Assets.xcassets */; };
 		B69C429325D71D8D00FDC038 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B69C429125D71D8D00FDC038 /* LaunchScreen.storyboard */; };
 		B69C429E25D71D8E00FDC038 /* SnakeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69C429D25D71D8E00FDC038 /* SnakeTests.swift */; };
 		B69C42A925D71D8E00FDC038 /* SnakeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69C42A825D71D8E00FDC038 /* SnakeUITests.swift */; };
+		B6AB7A6725D88F3E00B1DD94 /* SnakePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB7A6525D88F3E00B1DD94 /* SnakePopupViewController.swift */; };
+		B6AB7A6825D88F3E00B1DD94 /* SnakePopupViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6AB7A6625D88F3E00B1DD94 /* SnakePopupViewController.storyboard */; };
+		B6AB7A7125D88FCF00B1DD94 /* CustomPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB7A6F25D88FCF00B1DD94 /* CustomPopupView.swift */; };
+		B6AB7A7225D88FCF00B1DD94 /* CustomPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6AB7A7025D88FCF00B1DD94 /* CustomPopupView.xib */; };
+		B6AB7A7A25D8901100B1DD94 /* NibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB7A7925D8901100B1DD94 /* NibView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +41,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B652D8B725E05FCB0005DFD1 /* luanchBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = luanchBackground.jpg; sourceTree = "<group>"; };
 		B69C428325D71D8900FDC038 /* Snake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C428625D71D8900FDC038 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B69C428825D71D8900FDC038 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B69C428A25D71D8900FDC038 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B69C428A25D71D8900FDC038 /* BoardContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardContainerViewController.swift; sourceTree = "<group>"; };
 		B69C428D25D71D8900FDC038 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B69C428F25D71D8D00FDC038 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B69C429225D71D8D00FDC038 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +56,11 @@
 		B69C42A425D71D8E00FDC038 /* SnakeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnakeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C42A825D71D8E00FDC038 /* SnakeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeUITests.swift; sourceTree = "<group>"; };
 		B69C42AA25D71D8E00FDC038 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6AB7A6525D88F3E00B1DD94 /* SnakePopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnakePopupViewController.swift; sourceTree = "<group>"; };
+		B6AB7A6625D88F3E00B1DD94 /* SnakePopupViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SnakePopupViewController.storyboard; sourceTree = "<group>"; };
+		B6AB7A6F25D88FCF00B1DD94 /* CustomPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPopupView.swift; sourceTree = "<group>"; };
+		B6AB7A7025D88FCF00B1DD94 /* CustomPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPopupView.xib; sourceTree = "<group>"; };
+		B6AB7A7925D8901100B1DD94 /* NibView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +111,15 @@
 		B69C428525D71D8900FDC038 /* Snake */ = {
 			isa = PBXGroup;
 			children = (
+				B652D8B725E05FCB0005DFD1 /* luanchBackground.jpg */,
+				B6AB7A7925D8901100B1DD94 /* NibView.swift */,
+				B6AB7A6F25D88FCF00B1DD94 /* CustomPopupView.swift */,
+				B6AB7A7025D88FCF00B1DD94 /* CustomPopupView.xib */,
+				B6AB7A6625D88F3E00B1DD94 /* SnakePopupViewController.storyboard */,
+				B6AB7A6525D88F3E00B1DD94 /* SnakePopupViewController.swift */,
 				B69C428625D71D8900FDC038 /* AppDelegate.swift */,
 				B69C428825D71D8900FDC038 /* SceneDelegate.swift */,
-				B69C428A25D71D8900FDC038 /* ViewController.swift */,
+				B69C428A25D71D8900FDC038 /* BoardContainerViewController.swift */,
 				B69C428C25D71D8900FDC038 /* Main.storyboard */,
 				B69C428F25D71D8D00FDC038 /* Assets.xcassets */,
 				B69C429125D71D8D00FDC038 /* LaunchScreen.storyboard */,
@@ -233,7 +251,10 @@
 			files = (
 				B69C429325D71D8D00FDC038 /* LaunchScreen.storyboard in Resources */,
 				B69C429025D71D8D00FDC038 /* Assets.xcassets in Resources */,
+				B6AB7A6825D88F3E00B1DD94 /* SnakePopupViewController.storyboard in Resources */,
 				B69C428E25D71D8900FDC038 /* Main.storyboard in Resources */,
+				B652D8B825E05FCB0005DFD1 /* luanchBackground.jpg in Resources */,
+				B6AB7A7225D88FCF00B1DD94 /* CustomPopupView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +279,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B69C428B25D71D8900FDC038 /* ViewController.swift in Sources */,
+				B6AB7A7125D88FCF00B1DD94 /* CustomPopupView.swift in Sources */,
+				B69C428B25D71D8900FDC038 /* BoardContainerViewController.swift in Sources */,
+				B6AB7A7A25D8901100B1DD94 /* NibView.swift in Sources */,
+				B6AB7A6725D88F3E00B1DD94 /* SnakePopupViewController.swift in Sources */,
 				B69C428725D71D8900FDC038 /* AppDelegate.swift in Sources */,
 				B69C428925D71D8900FDC038 /* SceneDelegate.swift in Sources */,
 			);

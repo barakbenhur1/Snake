@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Snake Popup View Controller-->
+        <scene sceneID="vm1-Ou-Zoy">
+            <objects>
+                <viewController storyboardIdentifier="SnakePopupViewController" id="ezw-3C-8pf" customClass="SnakePopupViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" id="Sfz-L9-AsT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v0U-77-vbd">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kEJ-JX-uZr" customClass="CustomPopupView" customModule="Snake" customModuleProvider="target">
+                                        <rect key="frame" x="42" y="158" width="330" height="520"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="330" id="P4X-Z3-pyb"/>
+                                            <constraint firstAttribute="height" constant="520" id="yra-dg-AI7"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="kEJ-JX-uZr" firstAttribute="centerX" secondItem="v0U-77-vbd" secondAttribute="centerX" id="bwq-Hj-0MD"/>
+                                    <constraint firstItem="kEJ-JX-uZr" firstAttribute="centerY" secondItem="v0U-77-vbd" secondAttribute="centerY" constant="-30" id="lDQ-If-o4N"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zTV-6Z-7pV">
+                                <rect key="frame" x="72" y="44" width="270" height="1"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="270" id="01w-qY-bo8"/>
+                                    <constraint firstAttribute="height" constant="1" id="8rQ-pR-kxv"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="y7T-6f-oHg"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="v0U-77-vbd" secondAttribute="bottom" id="AIz-WT-igZ"/>
+                            <constraint firstAttribute="trailing" secondItem="v0U-77-vbd" secondAttribute="trailing" id="BXY-DW-4lW"/>
+                            <constraint firstItem="v0U-77-vbd" firstAttribute="leading" secondItem="Sfz-L9-AsT" secondAttribute="leading" id="D9p-Fe-Yxc"/>
+                            <constraint firstItem="v0U-77-vbd" firstAttribute="top" secondItem="Sfz-L9-AsT" secondAttribute="top" id="KKw-cE-EHN"/>
+                            <constraint firstItem="zTV-6Z-7pV" firstAttribute="top" secondItem="y7T-6f-oHg" secondAttribute="top" id="R0d-hQ-Mwh"/>
+                            <constraint firstItem="zTV-6Z-7pV" firstAttribute="centerX" secondItem="y7T-6f-oHg" secondAttribute="centerX" id="ni3-sn-blc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="v0U-77-vbd" id="7h3-ug-aud"/>
+                        <outlet property="customPopupView" destination="kEJ-JX-uZr" id="15x-jI-J3a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oAv-J1-o9D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-417" y="85"/>
+        </scene>
+    </scenes>
+</document>
