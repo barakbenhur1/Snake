@@ -9,7 +9,7 @@ import UIKit
 
 // move method enum
 enum MoveMethod: String {
-   case tap, swip
+   case tap, swipe
 }
 
 enum FoodType: String {
@@ -19,6 +19,7 @@ enum FoodType: String {
 class BoardContainerViewController: UIViewController {
     
     @IBOutlet weak var titleView: UIView!
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var leftView: UIView!
     @IBOutlet weak var rightView: UIView!
@@ -38,7 +39,7 @@ class BoardContainerViewController: UIViewController {
         let isOn: Bool = UserDefaults.standard.value(forKey: "MoveMethod") as? Bool ?? false
         self.moveMethodSwitch.isOn = isOn
         
-        let moveMethod: MoveMethod = isOn ? .swip : .tap
+        let moveMethod: MoveMethod = isOn ? .swipe : .tap
         
         prepareGameFrame()
         
@@ -86,10 +87,10 @@ class BoardContainerViewController: UIViewController {
         UserDefaults.standard.set(sender.isOn, forKey: "MoveMethod")
         
         if sender.isOn {
-            board.switchMoveMothod(to: .swip)
+            board.switchMoveMethod(to: .swipe)
         }
         else {
-            board.switchMoveMothod(to: .tap)
+            board.switchMoveMethod(to: .tap)
         }
     }
     
@@ -134,54 +135,54 @@ class Board  {
 
     // board container view controller
     
-    private var containerViewController: UIViewController?
+    private var containerViewController: BoardContainerViewController!
     
     // board super view
     
-    private lazy var superView: UIView = containerViewController!.view
+    private lazy var superView: UIView = containerViewController!.containerView
     
-    // inital params for grid calc
-    private var numOfSqueresInRow = 9
-    private lazy var squreSize: CGFloat = (superView.frame.width - CGFloat(numOfSqueresInRow * 5)) / CGFloat(numOfSqueresInRow)
-    private lazy var boardnRatio: CGFloat = (superView.frame.height - 152.5) / (superView.frame.width - 40)
-    private lazy var numOfSqueresInCol: Int = Int(CGFloat(numOfSqueresInRow) * boardnRatio)
-    private lazy var boardFrame = CGRect(x: 20, y: 112, width: (squreSize * CGFloat(numOfSqueresInRow)), height: (squreSize) * CGFloat(numOfSqueresInCol))
+    // initial params for grid calc
+    private var numOfSquaresInRow = 9
+    private lazy var squareSize: CGFloat = (superView.frame.width) / CGFloat(numOfSquaresInRow)
+    private lazy var boardRatio: CGFloat = (superView.frame.height) / (superView.frame.width)
+    private lazy var numOfSquaresInCol: Int = Int(CGFloat(numOfSquaresInRow) * boardRatio) + 1
+    private lazy var boardFrame = CGRect(x: 6 , y: 6, width: superView.frame.width, height: CGFloat(numOfSquaresInCol) * squareSize)
     private lazy var boardBorder: (top: CGFloat, bottom: CGFloat, left: CGFloat, right: CGFloat) = (top: boardFrame.origin.y, bottom: boardFrame.origin.y + boardFrame.height, left: boardFrame.origin.x, right: boardFrame.origin.x + boardFrame.width)
     
     // calc grid for snake
     private var boardView: UIView!
     
     // center index׳s
-    private lazy var rowIndex = numOfSqueresInRow / 2
-    private lazy var colIndex = (numOfSqueresInCol / 2) - 1
+    private lazy var rowIndex = numOfSquaresInRow / 2
+    private lazy var colIndex = (numOfSquaresInCol / 2) - 1
 
     // snake
     private var snake: Snake!
     
-    private var foodSpownTimer: Timer?
+    private var foodSpawnTimer: Timer?
     private var gameTimeTimer: Timer?
     
-    private var spowndFoodDictinary = [String : (assets: (egg: UIImageView?, food: UIImageView), type: FoodType)]()
+    private var spawnedFoodDictionary = [String : (assets: (egg: UIImageView?, food: UIImageView), type: FoodType)]()
     
-    private lazy var tap = UITapGestureRecognizer(target: self, action: #selector(changeDirctionByTap(tapGestureRecognizer:)))
+    private lazy var tap = UITapGestureRecognizer(target: self, action: #selector(changeDirectionByTap(tapGestureRecognizer:)))
     
     private lazy var tapFire = UITapGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
     
-    private lazy var swipFireDown = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    private lazy var swipeFireDown = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
     
-    private lazy var swipFireUp = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    private lazy var swipeFireUp = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
     
-    private lazy var swipFireLeft = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    private lazy var swipeFireLeft = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
     
-    private lazy var swipFireRight = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
+    private lazy var swipeFireRight = UISwipeGestureRecognizer(target: self, action: #selector(fire(gestureRecognizer:)))
     
-    private lazy var swipDown = UISwipeGestureRecognizer(target: self, action: #selector(changeDirctionBySwip(swipGestureRecognizer:)))
+    private lazy var swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(changeDirectionBySwipe(swipeGestureRecognizer:)))
     
-    private lazy var swipUp = UISwipeGestureRecognizer(target: self, action: #selector(changeDirctionBySwip(swipGestureRecognizer:)))
+    private lazy var swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(changeDirectionBySwipe(swipeGestureRecognizer:)))
     
-    private lazy var swipRight = UISwipeGestureRecognizer(target: self, action: #selector(changeDirctionBySwip(swipGestureRecognizer:)))
+    private lazy var swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(changeDirectionBySwipe(swipeGestureRecognizer:)))
     
-    private lazy var swipLeft = UISwipeGestureRecognizer(target: self, action: #selector(changeDirctionBySwip(swipGestureRecognizer:)))
+    private lazy var swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(changeDirectionBySwipe(swipeGestureRecognizer:)))
     
     var foodCountComp: ((Int) -> ())?
     
@@ -192,19 +193,21 @@ class Board  {
     private var count: Int = 0
     private var time: Int = 0
     
+    private var didLose = false
+    
     // MARK: buildBoard
     
     private init() {}
     
     @discardableResult
-    static func create(to vc: UIViewController, numberOfRows: Int, moveMethod: MoveMethod, scoreComp: @escaping ((Int) -> ())) -> Board {
+    static func create(to vc: BoardContainerViewController, numberOfRows: Int, moveMethod: MoveMethod, scoreComp: @escaping ((Int) -> ())) -> Board {
         // Build Container view for board
         
         let board = Board()
         
         board.foodCountComp = scoreComp
         
-        board.numOfSqueresInRow = numberOfRows
+        board.numOfSquaresInRow = numberOfRows
         
         board.containerViewController = vc
         
@@ -217,17 +220,17 @@ class Board  {
         board.boardView.addSubview(table)
         
         // init touch for navigation
-        board.switchMoveMothod(to: moveMethod)
+        board.switchMoveMethod(to: moveMethod)
         
-        board.swipUp.direction = .up
-        board.swipDown.direction = .down
-        board.swipLeft.direction = .left
-        board.swipRight.direction = .right
+        board.swipeUp.direction = .up
+        board.swipeDown.direction = .down
+        board.swipeLeft.direction = .left
+        board.swipeRight.direction = .right
         
-        board.swipFireUp.direction = .up
-        board.swipFireDown.direction = .down
-        board.swipFireLeft.direction = .left
-        board.swipFireRight.direction = .right
+        board.swipeFireUp.direction = .up
+        board.swipeFireDown.direction = .down
+        board.swipeFireLeft.direction = .left
+        board.swipeFireRight.direction = .right
         
         // add boardView to viewController
         board.superView.addSubview(board.boardView)
@@ -237,31 +240,31 @@ class Board  {
         return board
     }
     
-    func switchMoveMothod(to mothod: MoveMethod) {
+    func switchMoveMethod(to method: MoveMethod) {
         
         boardView.removeGestureRecognizer(tap)
-        boardView.removeGestureRecognizer(swipUp)
-        boardView.removeGestureRecognizer(swipDown)
-        boardView.removeGestureRecognizer(swipLeft)
-        boardView.removeGestureRecognizer(swipRight)
-        boardView.removeGestureRecognizer(swipFireUp)
-        boardView.removeGestureRecognizer(swipFireDown)
-        boardView.removeGestureRecognizer(swipFireLeft)
-        boardView.removeGestureRecognizer(swipFireRight)
+        boardView.removeGestureRecognizer(swipeUp)
+        boardView.removeGestureRecognizer(swipeDown)
+        boardView.removeGestureRecognizer(swipeLeft)
+        boardView.removeGestureRecognizer(swipeRight)
+        boardView.removeGestureRecognizer(swipeFireUp)
+        boardView.removeGestureRecognizer(swipeFireDown)
+        boardView.removeGestureRecognizer(swipeFireLeft)
+        boardView.removeGestureRecognizer(swipeFireRight)
         boardView.removeGestureRecognizer(tapFire)
         
-        switch mothod {
+        switch method {
         case .tap:
             boardView.addGestureRecognizer(tap)
-            boardView.addGestureRecognizer(swipFireUp)
-            boardView.addGestureRecognizer(swipFireDown)
-            boardView.addGestureRecognizer(swipFireLeft)
-            boardView.addGestureRecognizer(swipFireRight)
-        case .swip:
-            boardView.addGestureRecognizer(swipUp)
-            boardView.addGestureRecognizer(swipDown)
-            boardView.addGestureRecognizer(swipLeft)
-            boardView.addGestureRecognizer(swipRight)
+            boardView.addGestureRecognizer(swipeFireUp)
+            boardView.addGestureRecognizer(swipeFireDown)
+            boardView.addGestureRecognizer(swipeFireLeft)
+            boardView.addGestureRecognizer(swipeFireRight)
+        case .swipe:
+            boardView.addGestureRecognizer(swipeUp)
+            boardView.addGestureRecognizer(swipeDown)
+            boardView.addGestureRecognizer(swipeLeft)
+            boardView.addGestureRecognizer(swipeRight)
             boardView.addGestureRecognizer(tapFire)
         //        default:
         //            boardView.addGestureRecognizer(tap)
@@ -275,11 +278,13 @@ class Board  {
             }
         }
         
+        didLose = false
+        
         count = 0
         
-        spownTime = 1.6
+        spawnTime = 1.6
         
-        spowndFoodDictinary = [String : (assets: (egg: UIImageView, food: UIImageView), type: FoodType)]()
+        spawnedFoodDictionary = [String : (assets: (egg: UIImageView, food: UIImageView), type: FoodType)]()
         
         startOverInformer?()
         
@@ -300,25 +305,30 @@ class Board  {
     @objc func fire(gestureRecognizer: UITapGestureRecognizer) {
         snake.fire { [self] (bullet) in
             boardView.addSubview(bullet)
-        } chcekForLoseHendaler: { [self] (bullet, timer) -> (Bool) in
-            if bullet.frame.origin.x <= superView.frame.origin.x - 20 || bullet.frame.origin.x >=  superView.frame.origin.x + superView.frame.width - 40 || bullet.frame.origin.y <= superView.frame.origin.y - 30 || bullet.frame.origin.y >= superView.frame.origin.y + superView.frame.height - 190 {
+        } checkForCollusionHandler: { [self] (bullet, timer) -> (Bool) in
+            guard !didLose else {
+                timer.invalidate()
+                bullet.removeFromSuperview()
+                return false
+            }
+            if bullet.frame.origin.x <= boardFrame.origin.x - 40 || bullet.frame.origin.x >=  boardFrame.origin.x + superView.frame.width || bullet.frame.origin.y <= boardFrame.origin.y - 40 || bullet.frame.origin.y >= boardFrame.origin.y + superView.frame.height {
                 timer.invalidate()
                 bullet.removeFromSuperview()
                 return true
             }
             
-            for keyValue in spowndFoodDictinary {
+            for keyValue in spawnedFoodDictionary {
                 if keyValue.value.assets.food.frame.contains(bullet.center) {
                     guard let egg = keyValue.value.assets.egg else {
                         keyValue.value.assets.food.removeFromSuperview()
-                        spowndFoodDictinary[keyValue.key] = nil
+                        spawnedFoodDictionary[keyValue.key] = nil
                         timer.invalidate()
                         bullet.removeFromSuperview()
                         return true
                     }
                     
                     egg.removeFromSuperview()
-                    spowndFoodDictinary[keyValue.key]?.assets.egg = nil
+                    spawnedFoodDictionary[keyValue.key]?.assets.egg = nil
                     timer.invalidate()
                     bullet.removeFromSuperview()
                     return true
@@ -330,14 +340,14 @@ class Board  {
         }
     }
     
-    // MARK: Change Direction Methods - Tap / Swip
+    // MARK: Change Direction Methods - Tap / Swipe
     
-    @objc func changeDirctionByTap(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc func changeDirectionByTap(tapGestureRecognizer: UITapGestureRecognizer) {
         let loc = tapGestureRecognizer.location(in: boardView)
         
-        guard let snkeMoveDiff = calcSnakeMoveDiff(loc) else { return }
+        guard let snakeMoveDiff = calcSnakeMoveDiff(loc) else { return }
         
-        switch snkeMoveDiff {
+        switch snakeMoveDiff {
         case (let x , let y) where abs(y) > abs(x):
             if let head = Snake.head, let prv = head.prv {
                 guard head.image?.frame.origin.x != prv.image?.frame.origin.x else {
@@ -358,7 +368,7 @@ class Board  {
                 }
             }
             
-            switch snkeMoveDiff.xDiff {
+            switch snakeMoveDiff.xDiff {
             case ..<0:
                 snake!.direction = .right
             default:
@@ -367,8 +377,8 @@ class Board  {
         }
     }
     
-    @objc func changeDirctionBySwip(swipGestureRecognizer: UISwipeGestureRecognizer) {
-        switch swipGestureRecognizer.direction {
+    @objc func changeDirectionBySwipe(swipeGestureRecognizer: UISwipeGestureRecognizer) {
+        switch swipeGestureRecognizer.direction {
         case .up, .down:
             if let head = Snake.head, let prv = head.prv {
                 guard head.image?.frame.origin.x != prv.image?.frame.origin.x else {
@@ -387,7 +397,7 @@ class Board  {
             return
         }
         
-        switch swipGestureRecognizer.direction {
+        switch swipeGestureRecognizer.direction {
         case .up:
             snake!.direction = .up
         case .down:
@@ -404,14 +414,14 @@ class Board  {
     }
     
     // calc snake head location diff from a given point
-    private func calcSnakeMoveDiff(_ aginst: CGPoint) -> (xDiff: CGFloat, yDiff: CGFloat)? {
+    private func calcSnakeMoveDiff(_ against: CGPoint) -> (xDiff: CGFloat, yDiff: CGFloat)? {
         let snakeHead = Snake.head!.image
         
         let snakeHeadXxis = snakeHead!.frame.origin.x
         let snakeHeadYxis = snakeHead!.frame.origin.y
         
-        let yXisDiff = snakeHeadYxis - aginst.y
-        let xXisDiff = snakeHeadXxis - aginst.x
+        let yXisDiff = snakeHeadYxis - against.y
+        let xXisDiff = snakeHeadXxis - against.x
         
         return (xXisDiff , yXisDiff)
     }
@@ -433,22 +443,22 @@ class Board  {
         return stackView
     }
     
-    // MARK: squreView ( params { borderColor: black, bordexrWidth: 2 } )
-    private func squreView() -> UIView {
+    // MARK: squareView ( params { borderColor: black, borderWidth: 2 } )
+    private func squareView() -> UIView {
         let view = UIView()
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.systemGray5.cgColor
-        view.heightAnchor.constraint(equalToConstant: squreSize).isActive = true
-        view.widthAnchor.constraint(equalToConstant: squreSize).isActive = true
+        view.heightAnchor.constraint(equalToConstant: squareSize).isActive = true
+        view.widthAnchor.constraint(equalToConstant: squareSize).isActive = true
         return view
     }
     
     // MARK: createTableColm
     private func createTableColm() -> UIStackView {
-        let stackView = createStackView(heightAnchorConstant: boardFrame.height, widthAnchorConstant: squreSize, axis: .vertical)
+        let stackView = createStackView(heightAnchorConstant: boardFrame.height, widthAnchorConstant: squareSize, axis: .vertical)
         
-        for _ in 0..<numOfSqueresInCol {
-            let tableCell = squreView()
+        for _ in 0..<numOfSquaresInCol {
+            let tableCell = squareView()
             stackView.addArrangedSubview(tableCell)
         }
         
@@ -459,7 +469,7 @@ class Board  {
     private func createTable() -> UIStackView {
         let mainStackView = createStackView(heightAnchorConstant: boardFrame.height, widthAnchorConstant: boardFrame.width, axis: .horizontal)
         
-        for _ in 0..<numOfSqueresInRow {
+        for _ in 0..<numOfSquaresInRow {
             let colomStackView = createTableColm()
             mainStackView.addArrangedSubview(colomStackView)
         }
@@ -468,16 +478,16 @@ class Board  {
     }
     
     func stopGame() {
-        foodSpownTimer?.invalidate()
+        foodSpawnTimer?.invalidate()
         gameTimeTimer?.invalidate()
         snake.stopGame()
     }
     
     func resumeGame() {
-        self.startSpowningFoodToBoard(timerHandler: { (timer) in
-            self.foodSpownTimer = timer
+        self.startSpawningFoodToBoard(timerHandler: { (timer) in
+            self.foodSpawnTimer = timer
         })
-        RunLoop.current.add(self.foodSpownTimer!, forMode: .common)
+        RunLoop.current.add(self.foodSpawnTimer!, forMode: .common)
        
         var i = time
         let timer = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
@@ -499,8 +509,8 @@ class Board  {
         
         gameTimeTimer?.invalidate()
         gameTimeTimer = nil
-        foodSpownTimer?.invalidate()
-        foodSpownTimer = nil
+        foodSpawnTimer?.invalidate()
+        foodSpawnTimer = nil
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "SnakePopupViewController", bundle: nil)
         guard let lostPopup = storyBoard.instantiateViewController(withIdentifier: "SnakePopupViewController") as? SnakePopupViewController else { return }
@@ -522,8 +532,8 @@ class Board  {
     // MARK: Add Snake
     
     private func addSnakeToBoard() {
-        let startLocation = CGPoint(x: (CGFloat(rowIndex) * squreSize) + 5, y: (CGFloat(colIndex) * squreSize) + 5)
-        let size = squreSize - 10
+        let startLocation = CGPoint(x: (CGFloat(rowIndex) * squareSize) + 5, y: (CGFloat(colIndex) * squareSize) + 5)
+        let size = squareSize - 10
         let speed = 0.78
         
         snake = Snake(startLocation: startLocation, size: size, speed:  speed)
@@ -531,26 +541,26 @@ class Board  {
         boardView.addSubview(snake.snakeHead!)
         
         snake.isFoodThere = { key in
-            return self.spowndFoodDictinary[key]
+            return self.spawnedFoodDictionary[key]
         }
         
         snake.didEatFood = { [self] mul, key in
-            self.foodSpownTimer?.invalidate()
-            self.spowndFoodDictinary[key]?.assets.food.removeFromSuperview()
-            self.spowndFoodDictinary[key] = nil
-            self.spownTime *= mul
+            self.foodSpawnTimer?.invalidate()
+            self.spawnedFoodDictionary[key]?.assets.food.removeFromSuperview()
+            self.spawnedFoodDictionary[key] = nil
+            self.spawnTime *= mul
             
-            self.spownTime = max(self.spownTime, 0.3)
-            self.spownTime = min(self.spownTime, 1.6)
+            self.spawnTime = max(self.spawnTime, 0.3)
+            self.spawnTime = min(self.spawnTime, 1.6)
             
             self.count += 1
             
             self.foodCountComp?(count)
             
-            self.startSpowningFoodToBoard(timerHandler: { (timer) in
-                self.foodSpownTimer = timer
+            self.startSpawningFoodToBoard(timerHandler: { (timer) in
+                self.foodSpawnTimer = timer
             })
-            RunLoop.current.add(self.foodSpownTimer!, forMode: .common)
+            RunLoop.current.add(self.foodSpawnTimer!, forMode: .common)
         }
         
         snake.addTail = { tail in
@@ -558,21 +568,22 @@ class Board  {
         }
         
         snake.didLose = {
+            self.didLose = true
             self.showLostPopup()
         }
         
         snake?.startMoving()
         
-        startSpowningFoodToBoard(timerHandler: { [weak self] timer in
-            self?.foodSpownTimer = timer
+        startSpawningFoodToBoard(timerHandler: { [weak self] timer in
+            self?.foodSpawnTimer = timer
         })
     }
     
-    private var spownTime = 1.6
+    private var spawnTime = 1.6
     
-    private func startSpowningFoodToBoard(timerHandler: @escaping (Timer) -> ()) {
+    private func startSpawningFoodToBoard(timerHandler: @escaping (Timer) -> ()) {
         
-        let timer = Timer(timeInterval: spownTime, repeats: true) { [self] (timer) in
+        let timer = Timer(timeInterval: spawnTime, repeats: true) { [self] (timer) in
             
             var foodTypeString = FoodType.regular.rawValue
             
@@ -584,17 +595,16 @@ class Board  {
                 foodTypeString = isSlow ? FoodType.slow.rawValue : FoodType.doNoting.rawValue
             }
             
+            let foodXindex = Int.random(in: 0...numOfSquaresInRow - 1)
+            let foodYindex = Int.random(in: 0...numOfSquaresInCol - 1)
             
-            let foodXindex = Int.random(in: 0...numOfSqueresInRow - 1)
-            let foodYindex = Int.random(in: 0...numOfSqueresInCol - 1)
-            
-            let foodLoc = CGPoint(x: (CGFloat(foodXindex) * squreSize) + 5, y: (CGFloat(foodYindex) * squreSize) + 5)
+            let foodLoc = CGPoint(x: (CGFloat(foodXindex) * squareSize) + 5, y: (CGFloat(foodYindex) * squareSize) + 5)
             
             let imageName = {
                 return foodTypeString
             }()
             
-            let food = PointOnBoard.create(loc: foodLoc, size: (squreSize - 10), image: UIImage(named: imageName)!)
+            let food = PointOnBoard.create(loc: foodLoc, size: (squareSize - 10), image: UIImage(named: imageName)!)
         
             let foodPoint = CGPoint(x: foodXindex, y: foodYindex)
             
@@ -604,33 +614,33 @@ class Board  {
            
             print("//////////////////////////////////////////////////////////////////////////////////\nfood: \(foodPart.description)\n")
 
-            guard spowndFoodDictinary[key] == nil else {
-                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spown in (\(key)) but theres allredy food there \n")
+            guard spawnedFoodDictionary[key] == nil else {
+                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in (\(key)) but theres already food there \n")
                 return
             }
           
             let headXindex: Int = Int(snake.snakeHead!.frame.origin.x / (snake.bodySize + 10))
-            let headYindex: Int = Int((snake.snakeHead!.frame.origin.y / (snake.bodySize + 10))) + 1
+            let headYindex: Int = Int(snake.snakeHead!.frame.origin.y / (snake.bodySize + 10))
             
             let headPoint = CGPoint(x: headXindex, y: headYindex)
             
             guard !foodPoint.equalTo(headPoint) else {
-                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spown in \(key) but head part (\(headPoint)) was there \n")
+                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in \(key) but head part (\(headPoint)) was there \n")
                 return
             }
         
-            guard !snake!.tuochBody(with: foodPart) else {
-                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spown in \(key) but body part (\(foodPart)) was there \n")
+            guard !snake!.touchBody(with: foodPart) else {
+                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in \(key) but body part (\(foodPart)) was there \n")
                 return
             }
             
-            let restrictedSpown = ((foodYindex == headYindex - 1 || foodYindex == headYindex - 2) && foodXindex == headXindex)
+            let restrictedSpawn = ((foodYindex == headYindex - 1 || foodYindex == headYindex - 2) && foodXindex == headXindex)
                || ((foodYindex == headYindex + 1 || foodYindex == headYindex + 2) || foodXindex == headXindex)
               && ((foodXindex == headXindex + 1 || foodXindex == headXindex + 2) || foodYindex == headYindex)
               && ((foodXindex == headXindex - 1 || foodXindex == headXindex - 2) || foodYindex == headYindex)
             
-            guard !restrictedSpown else {
-                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spown in (\(key)) but is infront snake and allowed \n")
+            guard !restrictedSpawn else {
+                print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in (\(key)) but is in-front snake and allowed \n")
                 return
             }
             
@@ -638,13 +648,13 @@ class Board  {
             
             var egg: UIImageView? = nil
             
-            if spownTime / Double(Int.random(in: 1...6)) <= 0.32 {
+            if spawnTime / Double(Int.random(in: 1...6)) <= 0.32 {
                 egg = PointOnBoard.create(loc: food.frame.origin, size: food.frame.size.width, image: UIImage(named: "egg")!)
                 
                 boardView.addSubview(egg!)
             }
             
-            spowndFoodDictinary[key] = (assets: (egg: egg, food: food), FoodType(rawValue: foodTypeString)!)
+            spawnedFoodDictionary[key] = (assets: (egg: egg, food: food), FoodType(rawValue: foodTypeString)!)
         }
         
         timerHandler(timer)
@@ -654,15 +664,15 @@ class Board  {
 }
 
 class Snake {
-    // dirction enum
-    enum Dirction: Int {
+    // direction enum
+    enum Direction: Int {
         case up, down, left, right
     }
     
-    private enum opration {
+    private enum operation {
         case plus, minus
         
-        func performOpration<T: Numeric>(a: T, b: T) -> T {
+        func performOperation<T: Numeric>(a: T, b: T) -> T {
             switch self {
             case .plus:
                 return a + b
@@ -681,13 +691,13 @@ class Snake {
     
     static var animate = true
     
-    // MARK: Add food for snake to eat and graw by make movment faster
+    // MARK: Add food for snake to eat and grow by make movement faster
     
     var moveSpeed: Double!
-    private var initalSpeed : Double!
+    private var initialSpeed : Double!
     
-    // snkae head parms
-    var direction: Dirction = .left
+    // snake head parms
+    var direction: Direction = .left
     
     var snakeHead: UIImageView!
 
@@ -702,20 +712,20 @@ class Snake {
 
     init(startLocation: CGPoint, size: CGFloat, speed: Double) {
        
-        let head = PointOnBoard.create(loc: startLocation, size: size, image: UIImage(named: "snkeHead")!)
+        let head = PointOnBoard.create(loc: startLocation, size: size, image: UIImage(named: "snakeHead")!)
         
         bodySize = size
         
         snakeHead = head
         
         moveSpeed = speed
-        initalSpeed = speed
+        initialSpeed = speed
         
         let headPart = SnakePart(locationFrame: head.frame, image: head)
         
         Snake.head = headPart
         tail = headPart
-        direction = Dirction(rawValue: Int.random(in: 0...3))!
+        direction = Direction(rawValue: Int.random(in: 0...3))!
         
         Snake.current = Snake.head
         Snake.count = 1
@@ -793,11 +803,11 @@ class Snake {
         return Timer(timeInterval: moveSpeed, repeats: true) { [self] (timer) in
             printBody()
             
-            let moveCalc : (_ num: CGFloat, _ op: opration) -> (CGFloat) = { (number: CGFloat, op: opration) in
-                return op.performOpration(a: number, b: self.bodySize + 10.0)
+            let moveCalc : (_ num: CGFloat, _ op: operation) -> (CGFloat) = { (number: CGFloat, op: operation) in
+                return op.performOperation(a: number, b: self.bodySize + 10.0)
             }
             
-            var moveIterval: CGFloat = 0
+            var moveInterval: CGFloat = 0
             
             var isInBoard = true
             
@@ -806,20 +816,20 @@ class Snake {
             switch direction {
             case .right:
                 snakeHead?.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
-                moveIterval = moveCalc(snakeHead!.frame.origin.x, .plus)
-                isInBoard = Int(moveIterval) < Int(snakeHead!.superview!.frame.origin.x + snakeHead!.superview!.frame.width) - Int(snakeHead!.frame.width)
+                moveInterval = moveCalc(snakeHead!.frame.origin.x, .plus)
+                isInBoard = Int(moveInterval) < Int(snakeHead!.superview!.frame.origin.x + snakeHead!.superview!.frame.width) - Int(snakeHead!.frame.width)
             case .left:
                 snakeHead?.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
-                moveIterval = moveCalc(snakeHead!.frame.origin.x, .minus)
-                isInBoard = Int(moveIterval) > 0
+                moveInterval = moveCalc(snakeHead!.frame.origin.x, .minus)
+                isInBoard = Int(moveInterval) > 0
             case .up:
                 snakeHead?.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
-                moveIterval = moveCalc(snakeHead!.frame.origin.y, .minus)
-                isInBoard = Int(moveIterval) > 0
+                moveInterval = moveCalc(snakeHead!.frame.origin.y, .minus)
+                isInBoard = Int(moveInterval) > 0
             case .down:
                 snakeHead?.transform = .identity
-                moveIterval = moveCalc(snakeHead!.frame.origin.y, .plus)
-                isInBoard = Int(moveIterval) < Int(snakeHead!.superview!.frame.origin.y + snakeHead!.superview!.frame.height) - Int(3 * snakeHead!.frame.height) - Int(bodySize / 2)
+                moveInterval = moveCalc(snakeHead!.frame.origin.y, .plus)
+                isInBoard = Int(moveInterval) < Int(snakeHead!.superview!.frame.origin.y + snakeHead!.superview!.frame.height) - Int(snakeHead!.frame.height)
             }
             
             guard isInBoard else {
@@ -831,12 +841,12 @@ class Snake {
             var movePoint: CGPoint = .zero
             switch direction {
             case  .left, .right:
-                movePoint = CGPoint(x: moveIterval, y:  snakeHead!.frame.origin.y)
+                movePoint = CGPoint(x: moveInterval, y:  snakeHead!.frame.origin.y)
             case .up, .down:
-                movePoint = CGPoint(x: snakeHead!.frame.origin.x , y:  moveIterval)
+                movePoint = CGPoint(x: snakeHead!.frame.origin.x , y:  moveInterval)
             }
             
-            guard !tuochBody(with: Snake.head) else {
+            guard !touchBody(with: Snake.head) else {
                 timer.invalidate()
                 didLose()
                 return
@@ -846,35 +856,33 @@ class Snake {
                 addTail(tail!)
             }
             
-            let xFloat: CGFloat = (snakeHead!.frame.origin.x - 5) / (bodySize + 10.0)
-            let yFloat: CGFloat = (snakeHead!.frame.origin.y - 5) / (bodySize + 10.0)
-            
-            let x = xFloat.truncatingRemainder(dividingBy: 1) > 0.5 ? Int(xFloat + 1) : Int(xFloat)
-            let y = yFloat.truncatingRemainder(dividingBy: 1) > 0.5 ? Int(yFloat + 1) : Int(yFloat)
+            let xFloat: CGFloat = (snakeHead!.frame.origin.x) / (bodySize + 10.0)
+            let yFloat: CGFloat = (snakeHead!.frame.origin.y) / (bodySize + 10.0)
 
-            let point = CGPoint(x: x, y: y)
+            let point = CGPoint(x: xFloat, y: yFloat)
             
             let key = PointOnBoard.generateKeyPoint(origin: point)
             
-            if let asstet = isFoodThere!(key) {
-                guard asstet.assets.egg == nil else {
+            if let asset = isFoodThere!(key) {
+                guard asset.assets.egg == nil else {
+                    allowFire = false
                     movementTimer?.invalidate()
                     didLose()
                     return
                 }
-                eatFood(key: key ,food: asstet.assets.food, type: asstet.type)
+                eatFood(key: key ,food: asset.assets.food, type: asset.type)
             }
         }
     }
     
-    private var allow = true
+    private var allowFire = true
     
-    func fire(bulletHandler: @escaping (UIImageView) -> (), chcekForLoseHendaler:  @escaping (UIImageView, Timer) -> (Bool), fireBlocked: @escaping (UIImageView) -> ()) {
+    func fire(bulletHandler: @escaping (UIImageView) -> (), checkForCollusionHandler:  @escaping (UIImageView, Timer) -> (Bool), fireBlocked: @escaping (UIImageView) -> ()) {
         let bullet = PointOnBoard.create(loc: snakeHead.frame.origin, size: bodySize, image: UIImage(named: "fireBall")!)
         
-        guard allow else { return }
+        guard allowFire else { return }
         
-        allow = false
+        allowFire = false
         
         bullet.alpha = 0
         
@@ -902,19 +910,19 @@ class Snake {
             
             let part = SnakePart(locationFrame: bullet.frame, image: bullet)
             
-            if tuochBody(with: part) {
+            if touchBody(with: part) {
                 timer.invalidate()
                 fireBlocked(bullet)
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.08) {
-                    allow = true
+                    allowFire = true
                 }
             }
             
-            let finish = chcekForLoseHendaler(bullet, timer)
+            let finish = checkForCollusionHandler(bullet, timer)
             
             if finish {
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.1) {
-                    allow = true
+                    allowFire = true
                 }
             }
         }
@@ -963,7 +971,7 @@ class Snake {
         }
         
         moveSpeed = max(moveSpeed, 0.2)
-        moveSpeed = min(moveSpeed, initalSpeed)
+        moveSpeed = min(moveSpeed, initialSpeed)
         
         didEatFood(foodTuple.mul, foodTuple.key)
         
@@ -986,7 +994,7 @@ class Snake {
         Snake.animate = Snake.count != 2
     }
     
-    func tuochBody(with part: SnakePart) -> Bool {
+    func touchBody(with part: SnakePart) -> Bool {
         Snake.reset()
         
         while let nextPart = getNetPart() {

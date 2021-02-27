@@ -198,6 +198,10 @@
                                     <constraint firstItem="RQc-bJ-o2w" firstAttribute="centerX" secondItem="VpD-My-fUV" secondAttribute="centerX" multiplier="0.4" id="QYc-2m-ihI"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLo-bU-Q0z">
+                                <rect key="frame" x="10" y="104" width="394" height="723.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -206,10 +210,14 @@
                             <constraint firstItem="hEY-QO-XBp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VaC-bI-58y" secondAttribute="trailing" constant="5" id="0W7-TA-Xc3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ku4-9q-AP2" secondAttribute="trailing" id="10X-uJ-vvF"/>
                             <constraint firstItem="ku4-9q-AP2" firstAttribute="top" secondItem="abq-yr-ieM" secondAttribute="bottom" id="8Hp-1F-u6y"/>
+                            <constraint firstItem="ku4-9q-AP2" firstAttribute="leading" secondItem="fLo-bU-Q0z" secondAttribute="trailing" id="92G-mU-owr"/>
                             <constraint firstItem="VpD-My-fUV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JIr-Af-rNa"/>
+                            <constraint firstItem="VpD-My-fUV" firstAttribute="top" secondItem="fLo-bU-Q0z" secondAttribute="bottom" id="JrW-oR-5CU"/>
                             <constraint firstItem="ku4-9q-AP2" firstAttribute="bottom" secondItem="VpD-My-fUV" secondAttribute="top" id="KSk-w2-LgJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VpD-My-fUV" secondAttribute="trailing" id="QHJ-To-xm0"/>
                             <constraint firstItem="DGt-3k-C9M" firstAttribute="top" secondItem="abq-yr-ieM" secondAttribute="bottom" id="Trr-Uu-hl0"/>
+                            <constraint firstItem="fLo-bU-Q0z" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="VD3-HC-6Bb"/>
+                            <constraint firstItem="fLo-bU-Q0z" firstAttribute="top" secondItem="abq-yr-ieM" secondAttribute="bottom" id="Zum-qE-4yW"/>
                             <constraint firstItem="TUg-mS-bpD" firstAttribute="centerX" secondItem="VaC-bI-58y" secondAttribute="centerX" id="bcu-1n-HHo"/>
                             <constraint firstItem="DGt-3k-C9M" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="d7P-7z-O7O"/>
                             <constraint firstItem="VaC-bI-58y" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="22" id="fxN-CZ-LgK"/>
@@ -218,6 +226,7 @@
                             <constraint firstItem="VpD-My-fUV" firstAttribute="height" secondItem="abq-yr-ieM" secondAttribute="height" multiplier="0.66" id="nd4-BD-ZFx"/>
                             <constraint firstItem="VaC-bI-58y" firstAttribute="top" secondItem="TUg-mS-bpD" secondAttribute="bottom" constant="1.5" id="oEe-WL-t48"/>
                             <constraint firstItem="abq-yr-ieM" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pTb-zI-1kx"/>
+                            <constraint firstItem="fLo-bU-Q0z" firstAttribute="leading" secondItem="DGt-3k-C9M" secondAttribute="trailing" id="reL-2s-UuK"/>
                             <constraint firstItem="abq-yr-ieM" firstAttribute="bottom" secondItem="VaC-bI-58y" secondAttribute="bottom" constant="10" id="s5F-72-CU5"/>
                             <constraint firstItem="DGt-3k-C9M" firstAttribute="bottom" secondItem="VpD-My-fUV" secondAttribute="top" id="y6h-xg-Kqz"/>
                             <constraint firstAttribute="bottom" secondItem="VpD-My-fUV" secondAttribute="bottom" id="yEH-3v-TMV"/>
@@ -225,6 +234,7 @@
                     </view>
                     <connections>
                         <outlet property="bottomView" destination="VpD-My-fUV" id="HUo-5t-GDX"/>
+                        <outlet property="containerView" destination="fLo-bU-Q0z" id="xSc-ea-XKY"/>
                         <outlet property="countLabel" destination="RQc-bJ-o2w" id="L9n-37-Kdz"/>
                         <outlet property="highScore" destination="TUg-mS-bpD" id="k3X-k8-Lgg"/>
                         <outlet property="leftView" destination="DGt-3k-C9M" id="8g4-lK-AmY"/>
@@ -241,7 +251,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="doNoting" width="109" height="115.5"/>
+        <image name="doNoting" width="99" height="94.5"/>
         <image name="egg" width="266.5" height="400"/>
         <image name="regular" width="440" height="333"/>
         <image name="slow" width="500" height="540"/>
