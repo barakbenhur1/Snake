@@ -19,10 +19,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abq-yr-ieM">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="104"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap / Swip To Move Swip / Tap To Shoot" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcY-qs-8nU">
-                                        <rect key="frame" x="8.5" y="38" width="92" height="31"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap To Move / Swipe To Move Swipe To Move / Tap To Shoot" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcY-qs-8nU">
+                                        <rect key="frame" x="6.5" y="38" width="140" height="31"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="92" id="ei7-RP-wdv"/>
+                                            <constraint firstAttribute="width" constant="140" id="ei7-RP-wdv"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="10"/>
                                         <nil key="textColor"/>
@@ -121,7 +121,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="uDN-N4-Na7">
                                                                 <rect key="frame" x="0.0" y="0.0" width="66" height="15"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eggUI" translatesAutoresizingMaskIntoConstraints="NO" id="aeO-1y-GCW">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="egg" translatesAutoresizingMaskIntoConstraints="NO" id="aeO-1y-GCW">
                                                                         <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="15" id="iar-0X-dVe"/>
@@ -212,7 +212,7 @@
                                     <constraint firstItem="zTo-IJ-nV1" firstAttribute="leading" secondItem="abq-yr-ieM" secondAttribute="leading" constant="30" id="A29-3m-3kr"/>
                                     <constraint firstAttribute="height" constant="104" id="DFm-Gi-LvH"/>
                                     <constraint firstAttribute="trailing" secondItem="hEY-QO-XBp" secondAttribute="trailing" constant="8" id="P4X-PD-iZ5"/>
-                                    <constraint firstItem="hcY-qs-8nU" firstAttribute="centerX" secondItem="zTo-IJ-nV1" secondAttribute="centerX" id="VFP-LZ-4lW"/>
+                                    <constraint firstItem="hcY-qs-8nU" firstAttribute="centerX" secondItem="zTo-IJ-nV1" secondAttribute="centerX" constant="22" id="VFP-LZ-4lW"/>
                                     <constraint firstItem="zTo-IJ-nV1" firstAttribute="top" secondItem="hcY-qs-8nU" secondAttribute="bottom" constant="2" id="nZm-Ty-wnR"/>
                                     <constraint firstItem="2h9-Yf-e6O" firstAttribute="top" secondItem="TUg-mS-bpD" secondAttribute="bottom" constant="2" id="soJ-r5-kT9"/>
                                     <constraint firstAttribute="bottom" secondItem="zTo-IJ-nV1" secondAttribute="bottom" constant="2" id="zt0-hL-ci0"/>
@@ -322,7 +322,7 @@
     </scenes>
     <resources>
         <image name="doNoting" width="99" height="94.5"/>
-        <image name="eggUI" width="266.5" height="400"/>
+        <image name="egg" width="306" height="306"/>
         <image name="enamy" width="182" height="256.5"/>
         <image name="enamyDamaged" width="182" height="256.5"/>
         <image name="regular" width="440" height="333"/>

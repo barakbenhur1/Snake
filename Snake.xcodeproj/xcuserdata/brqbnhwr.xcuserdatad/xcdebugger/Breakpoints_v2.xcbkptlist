@@ -7,16 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "74751EB3-6830-49F3-B849-1489CCD7008A"
+            uuid = "8E86AEB2-9BD7-4C5F-BE4E-8AE4B5B4B434"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Snake/ViewControllers/BoardContainerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "758"
-            endingLineNumber = "758"
-            landmarkName = "addSnakeToBoard()"
+            startingLineNumber = "1555"
+            endingLineNumber = "1555"
+            landmarkName = "eatFood(key:food:type:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CB7A5B46-D97E-48ED-9692-1C9F8C8B6173"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Snake/ViewControllers/BoardContainerViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1551"
+            endingLineNumber = "1551"
+            landmarkName = "eatFood(key:food:type:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

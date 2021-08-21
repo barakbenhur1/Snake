@@ -1117,7 +1117,7 @@ class Board  {
             
             let enamyChance = Double.random(in: 0...1)
             
-            if enamyChance < enamyChanceRatio {
+            if enamyChance <= 1 {
                 enamyChanceRatio *= 0.88
                 foodTypeString = FoodType.enamy.rawValue
             }
@@ -1191,7 +1191,9 @@ class Board  {
         
         if eggChance {
             if spawnTime / Double(Int.random(in: 1...6)) <= 0.32 {
-                egg = PointOnBoard.create(loc: food.frame.origin, size: food.frame.size.width, image: UIImage(named: "egg")!)
+                egg = PointOnBoard.create(loc: food.frame.origin, size: squareSize, image: UIImage(named: "egg")!)
+                
+                egg?.layer.cornerRadius = 0
                 
                 boardView.addSubview(egg!)
             }
