@@ -925,7 +925,7 @@ class Board  {
             
             enamyShot()
             
-            if self.timeForBoss >= bossSpawnTime {
+            if timeForBoss >= bossSpawnTime {
                 SoundManager.playSound(named: "BossMusic")
                 let label = UILabel(frame: CGRect(origin: .init(x: boardView.center.x - (boardView.frame.width - 40) * 0.5, y: boardView.center.y - 80), size: CGSize(width: boardView.frame.width - 40, height: 30)))
                 label.text = "BOSS TIME"
@@ -946,13 +946,17 @@ class Board  {
                 label.textAlignment = .center
                 boardView.addSubview(label)
                 
+                boardView.bringSubviewToFront(label)
+                
                 UIView.animate(withDuration: 0.3) {
                     label.transform = .identity
                     label.alpha = 1
                 }
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.46) {
                     label.text! += " 👹"
                 }
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.94) {
                     UIView.animate(withDuration: 0.4) {
                         label.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
@@ -962,6 +966,7 @@ class Board  {
                         label.removeFromSuperview()
                     }
                 }
+                
                 let boss = PointOnBoard.create(loc: .zero, size: squareSize * 3, image: UIImage(named: FoodType.boss.rawValue)!)
                 boss.layer.cornerRadius = 0
                 boss.layer.masksToBounds = false
@@ -982,6 +987,7 @@ class Board  {
                     food.assets.food.removeFromSuperview()
                     food.assets.egg?.removeFromSuperview()
                 }
+                
                 spawnedFoodDictionary = [String : (assets: (egg: UIImageView?, food: UIImageView), type: FoodType)]()
                 
                 var reverseX = false
@@ -1117,7 +1123,7 @@ class Board  {
             
             let enamyChance = Double.random(in: 0...1)
             
-            if enamyChance <= 1 {
+            if enamyChance < enamyChanceRatio {
                 enamyChanceRatio *= 0.88
                 foodTypeString = FoodType.enamy.rawValue
             }
@@ -1154,10 +1160,7 @@ class Board  {
         
         let key = PointOnBoard.generateKeyPoint(origin: foodLoc)
         
-//        print("//////////////////////////////////////////////////////////////////////////////////\nfood: \(foodPart.description)\n")
-        
         guard spawnedFoodDictionary[key] == nil else {
-//            print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in (\(key)) but theres already food there \n")
             return
         }
         
@@ -1167,25 +1170,30 @@ class Board  {
         let headPoint = CGPoint(x: headXindex, y: headYindex)
         
         guard !foodLoc.equalTo(headPoint) else {
-//            print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in \(key) but head part (\(headPoint)) was there \n")
             return
         }
         
         guard !snake!.touchBody(with: foodPart) else {
-//            print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in \(key) but body part (\(foodPart)) was there \n")
             return
         }
         
         let restrictedSpawn = distance(from: CGPoint(x: foodXindex, y: foodYindex), to: CGPoint(x: headXindex, y: headYindex)) <= 2
         
         guard !snake.isInfront(frame: food.frame) && !restrictedSpawn else {
-//            print("//////////////////////////////////////////////////////////////////////////////////\n Try to spawn in (\(key)) but is in-front snake and allowed \n")
             return
         }
         
         smokeEffect(frame: food.frame, imageName: "egg", numParticlesToEmit: 10)
         
         boardView.addSubview(food)
+        
+        food.layer.masksToBounds = false
+        food.layer.shadowColor = UIColor.black.cgColor
+        food.layer.shadowOpacity = 0.48
+        food.layer.shadowOffset = .zero
+        food.layer.shadowRadius = food.frame.width / 2
+        
+        food.layer.shadowPath = UIBezierPath(rect: food.bounds).cgPath
         
         var egg: UIImageView? = nil
         
@@ -1196,6 +1204,14 @@ class Board  {
                 egg?.layer.cornerRadius = 0
                 
                 boardView.addSubview(egg!)
+                
+                egg!.layer.masksToBounds = false
+                egg!.layer.shadowColor = UIColor.gray.cgColor
+                egg!.layer.shadowOpacity = 0.4
+                egg!.layer.shadowOffset = .zero
+                egg!.layer.shadowRadius = egg!.frame.width / 2
+                
+                egg!.layer.shadowPath = UIBezierPath(rect: egg!.bounds).cgPath
             }
         }
         
