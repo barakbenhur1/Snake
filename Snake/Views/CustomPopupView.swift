@@ -50,7 +50,6 @@ class CustomPopupView: NibView {
         }
     }
     
-
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -59,9 +58,9 @@ class CustomPopupView: NibView {
 //        titleLabel.layer.shadowOpacity = 0.4
 //        titleLabel.layer.shadowOffset = .init(width: 0, height: -titleLabel.frame.height / 2)
 //        titleLabel.layer.shadowRadius = titleLabel.frame.height / 2
-//        
+//
 //        titleLabel.layer.shadowPath = UIBezierPath(rect: CGRect(origin: titleLabel.frame.origin, size: CGSize(width: titleLabel.frame.width - 40, height: titleLabel.frame.height / 2.4))).cgPath
-//        
+//
         button.isEnabled = true
         layer.cornerRadius = 40
         button.layer.cornerRadius = 24
